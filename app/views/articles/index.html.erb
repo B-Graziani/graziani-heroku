@@ -1,5 +1,5 @@
 <p id="notice"><%= notice %></p>
-
+<div class="container p-3">
 <h1>Articles</h1>
 
 <table>
@@ -16,11 +16,14 @@
     <% @articles.each do |article| %>
       <tr>
         <td><%= article.title %></td>
-        <td><%= article.body %></td>
         <td><%= article.user_id %></td>
         <td><%= link_to 'Show', article %></td>
+        <% if policy(article).edit? %>
         <td><%= link_to 'Edit', edit_article_path(article) %></td>
+        <% end %>
+        <% if policy(article).destroy? %>
         <td><%= link_to 'Destroy', article, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+        <% end %>
       </tr>
     <% end %>
   </tbody>
@@ -28,4 +31,8 @@
 
 <br>
 
-<%= link_to 'New Article', new_article_path %>
+<% if policy(Article).create? %>
+  <%= link_to "New article", new_article_path %>
+<% end %>
+</div>
+
